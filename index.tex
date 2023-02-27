@@ -1,0 +1,187 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={A3: SPL Library Checkouts},
+  pdfauthor={Tyler Vuu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{A3: SPL Library Checkouts}
+\author{Tyler Vuu}
+\date{2023}
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\subsubsection{Introduction}\label{introduction}}
+
+The data set I chose was with items that have been checked out at least
+10 times a month from 2017 - 2023. With this investigation, I hope to
+see what trends emerge in terms of the popularity of certain books being
+checked out such as popular genres, authors, and media types. Through
+this investigation, we will be able to see what is most popular at the
+Seattle public library and we can use this data to be able to predict
+the demand for and what to order accordingly.
+
+\hypertarget{summary-information}{%
+\subsubsection{Summary Information}\label{summary-information}}
+
+Write a summary paragraph of findings that includes the 5 values
+calculated from your summary information R script
+
+For my summary.r script, I answered the following questions below in
+order to get a better idea of the data.
+
+\begin{itemize}
+\tightlist
+\item
+  What is the average number of checkouts for each item every year
+\item
+  What is the top 5 most popular media type checked out
+\item
+  Who is the most popular author being checked out
+\item
+  How has the number of print book checkouts changed over time?
+\item
+  How has the number of Ebook checkouts changed over time?
+\end{itemize}
+
+For the first question, I wanted to find this to get an idea of how
+often the more popular (\textgreater{} 10) books are being checked out
+for every year. For the second question we wanted to ask this in lead up
+to one of our other graphs so we could narrow down the library's top 5
+most popular media types when graphing. Question 3 I wanted to find as
+it may give insight into trends of authors throughout the years and also
+lead to easier graphing later on to see whether top 5 most popular
+authors checkouts fluctuate throughout the years. Much like question 1,
+question 4 asks a similar question for checkouts every year except we
+wanted to look at print books to see how events like the pandemic
+effected checkouts. Finally I wanted to see Ebook checkouts every year
+as later on in the report we would be comparing print and digital books
+later on.
+
+\includegraphics{index_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\hypertarget{the-dataset}{%
+\subsubsection{The Dataset}\label{the-dataset}}
+
+This dataset was collected and published by the Seattle public library
+on January 31st, 2017. The data set is filtered down to only items at he
+Seattle Pacific Library that have been checked out 10 or more times and
+goes back to checkouts by title for physical and digital items as early
+as 2017. This data collected inclues the checkout tool, material type,
+checkout year, checkout month, physical or digital, number of times item
+has been checkout, the title of the item, and the author of the item.
+This data was collected likely to catalog which books were being checked
+out and at what time so the Seattle public library would know how and
+when books were being checked out. Before working with this data, we
+needed to consider the potential privacy issue of viewing other peoples
+checkouts and to also take care to ensure our data collected from this
+dataset is not misinterpreted. Some problems with this data set is that
+there are bits of missing data for many titles making the data
+incomplete in some areas. Another limitation is that this is merely the
+data for a single library meaning that investigations focusing on
+overall trends of libraries in general may be misleading as the data may
+be a product of the area.
+
+\hypertarget{popular-media-types-graph}{%
+\subsubsection{Popular Media Types
+Graph}\label{popular-media-types-graph}}
+
+\includegraphics{index_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+I included this chart because I wanted to see trends in emedia types
+through out the years to especially see whether digital formats would
+become more popular through out the years. Looking at the graph we can
+see that videodiscs were extremely popular to check out but have been
+dramatically decrasing in popularity while ebooks and audiobooks have
+been slowly increasing in popularity with a large spike in both in 2020
+around the time of the pandemic.
+
+\hypertarget{popular-authors-graph}{%
+\subsubsection{Popular Authors Graph}\label{popular-authors-graph}}
+
+\includegraphics{index_files/figure-latex/unnamed-chunk-3-1.pdf} Next I
+wanted to see how certain authors would fare overtime as I took the top
+5 most popular authors at the library to see if they would fluctuate.
+Overall they swapped ranks here and then with Jim Davis seemingly
+decreasing dramatically in popularity. But one interesting data point
+being 2020 as 3 authors lost a lot of check outs while the other two
+stayed relatively unaffected. This may be due to some authors faring
+better with physical material rather than digital material and as we
+will see in our next graph, digital was extremely popular during the
+pandemic.
+
+\hypertarget{physical-v-digital-checkouts-graph}{%
+\subsubsection{Physical v Digital Checkouts
+Graph}\label{physical-v-digital-checkouts-graph}}
+
+\includegraphics{index_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+Here I wanted to make a historgram to compare digital and physical
+checkouts throughout the year. We can see that physical was predominatly
+popular but took a large hit in check outs over the pandemic while
+digital checkouts remained unaffected. We can see that even after the
+pandemic physical checkouts are recovering but still are behind digital
+which I found very interesting as it seems that digital is now the
+predominate way to checkout material.
+
+\end{document}

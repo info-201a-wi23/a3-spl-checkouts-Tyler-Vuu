@@ -1,86 +1,103 @@
 ---
-title: "A3: SPL Library Checkouts"
-output: html_document
+title: 'A3: SPL Library Checkouts'
+author: "Tyler Vuu"
+date: '2023'
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ### Introduction
 
-An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
+The data set I chose was with items that have been checked out at least 10 times a month from 2017 - 2023. With this investigation, I hope to see what trends emerge in terms of the popularity of certain books being checked out such as  popular genres, authors, and media types. Through this investigation, we will be able to see what is most popular at the Seattle public library and we can use this data to be able to predict the demand for and what to order accordingly.
 
 ### Summary Information
 
 Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
 
-These will likely be calculated using your DPLYR skills, answering questions such as:
+For my summary.r script, I answered the following questions below in order to get a better idea of the data.
 
-- What is the average number of checkouts for each item?
-- What is the month or year with the most/least checkouts for a book that you're interested in?
-- What is the month or year with the most/least checkouts for ebooks?
+- What is the average number of checkouts for each item every year
+- What is the top 5 most popular media type checked out 
+- Who is the most popular author being checked out 
 - How has the number of print book checkouts changed over time?
+- How has the number of Ebook checkouts changed over time?
 
-Feel free to calculate and report values that you find relevant.
+For the first question, I wanted to find this to get an idea of how often the more popular (> 10) books are being checked out for every year. For the second question we wanted to ask this in lead up to one of our other graphs so we could narrow down the library's top 5 most popular media types when graphing. Question 3 I wanted to find as it may give insight into trends of authors throughout the years and also lead to easier graphing later on to see whether top 5 most popular authors checkouts fluctuate throughout the years. Much like question 1, question 4 asks a similar question for checkouts every year except we wanted to look at print books to see how events like the pandemic effected checkouts. Finally I wanted to see Ebook checkouts every year as later on in the report we would be comparing print and digital books later on.
+
+``````{r, echo = FALSE, message=FALSE, warning = FALSE, code = readLines("summary.r")}
+
+```
 
 ### The Dataset
 
-- Who collected/published the data?  
-- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
-- How was the data collected or generated?  
-- Why was the data collected?  
-- What, if any, ethical questions do you need to consider when working with this data?  
-- What are possible limitations or problems with this data?   (at least 200 words)
+This dataset was collected and published by the Seattle public library on January 31st, 2017. The data set is filtered down to only items at he Seattle Pacific Library that have been checked out 10 or more times and goes back to checkouts by title for physical and digital items as early as 2017. This data collected inclues the checkout tool, material type, checkout year, checkout month, physical or digital, number of times item has been checkout, the title of the item, and the author of the item. This data was collected likely to catalog which books were being checked out and at what time so the Seattle public library would know how and when books were being checked out. Before working with this data, we needed to consider the potential privacy issue of viewing other peoples checkouts and to also take care to ensure our data collected from this dataset is not misinterpreted. Some problems with this data set is that there are bits of missing data for many titles making the data incomplete in some areas. Another limitation is that this is merely the data for a single library meaning that investigations focusing on overall trends of libraries in general may be misleading as the data may be a product of the area.
 
+### Popular Media Types Graph
 
-### First Trends Over Time Chart
+``````{r, echo = FALSE, warning = FALSE, message=FALSE}
+library("dplyr")
+library("ggplot2")
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+library_df <- read.csv("2017-2023-10-Checkouts-SPL-Data.csv")
 
-The first chart that you will create and include will show the trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+popular_media_graph <- library_df %>% 
+  filter(MaterialType %in% c(popular_media)) %>% 
+  group_by(MaterialType, CheckoutYear) %>% 
+  summarise(Checkouts = sum(Checkouts, na.rm = TRUE))
+  
+ggplot(popular_media_graph) +
+  geom_line(aes(x = CheckoutYear, y = Checkouts, color = MaterialType)) + 
+  labs(title = "Top 5 Media Type Checkout Popularity 2017 - 2023",
+    	x = "Year",
+    	y = "Checkouts",
+    	color = "Media Type")
 
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
 ```
 
-### Second Trends Over Time Chart
+I included this chart because I wanted to see trends in emedia types through out the years to especially see whether digital formats would become more popular through out the years. Looking at the graph we can see that videodiscs were  extremely popular to check out but have been dramatically decrasing in popularity while ebooks and audiobooks have been slowly increasing in popularity with a large spike in both in 2020 around the time of the pandemic.
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+### Popular Authors Graph
 
-The second chart that you will create and include will show another trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+``````{r, echo = FALSE, warning = FALSE, message=FALSE}
+library("dplyr")
+library("ggplot2")
 
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
+library_df <- read.csv("2017-2023-10-Checkouts-SPL-Data.csv")
 
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+popular_authors_graph <- library_df %>% 
+  filter(Creator %in% c(popular_author)) %>% 
+  group_by(Creator, CheckoutYear) %>% 
+  summarise(Checkouts = sum(Checkouts, na.rm = TRUE))
+  
+ggplot(popular_authors_graph) +
+  geom_line(aes(x = CheckoutYear, y = Checkouts, color = Creator)) + 
+  labs(title = "Top 5 Author Checkout Popularity 2017 - 2023",
+    	x = "Year",
+    	y = "Checkouts",
+    	color = "Authors")
 ```
 
-### Your Choice
+Next I wanted to see how certain authors would fare overtime as I took the top 5 most popular authors at the library to see if they would fluctuate. Overall they swapped ranks here and then with Jim Davis seemingly decreasing dramatically in popularity. But one interesting data point being 2020 as 3 authors lost a lot of check outs while the other two stayed relatively unaffected. This may be due to some authors faring better with physical material rather than digital material and as we will see in our next graph, digital was extremely popular during the pandemic.
 
-The last chart is up to you. It could be a line plot, scatter plot, histogram, bar plot, stacked bar plot, and more. Here are some requirements to help guide your design:
+### Physical v Digital Checkouts Graph
 
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
+``````{r, echo = FALSE, warning = FALSE, message=FALSE}
+library("dplyr")
+library("ggplot2")
 
-Here's an example of how to run an R script inside an RMarkdown file:
+library_df <- read.csv("2017-2023-10-Checkouts-SPL-Data.csv")
 
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+Book_Digital_Graph <- library_df %>% 
+  group_by(UsageClass, CheckoutYear) %>% 
+  summarise(Checkouts = sum(Checkouts, na.rm = TRUE))
+
+ggplot(Book_Digital_Graph) +
+  geom_col(aes(x = CheckoutYear, y = Checkouts, fill = UsageClass), position = "dodge") + 
+  labs(title = "Physical v Digital Checkouts 2017 - 2023",
+    	x = "Year",
+    	y = "Checkouts",
+    	color = "Medium Type")
 ```
 
-
+Here I wanted to make a historgram to compare digital and physical checkouts throughout the year. We can see that physical was predominatly popular but took a large hit in check outs over the pandemic while digital checkouts remained unaffected. We can see that even after the pandemic physical checkouts are recovering but still are behind digital which I found very interesting as it seems that digital is now the predominate way to checkout material.
